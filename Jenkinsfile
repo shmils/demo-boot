@@ -4,6 +4,11 @@ pipeline {
     environment {
         registry = "shossein/demo-boot"
         registryCredential = 'docker-hub'
+        containerName = "demo-app"
+        appPort = "8008"
+        testPort = "8180"
+        prodPort = "80"
+        prodIP = "13.38.120.149"
     }
 
     stages {
@@ -44,18 +49,26 @@ pipeline {
         
         stage("Deploy to test env"){
             steps{
-             sh "docker stop demo-app || true"
-             sh "docker rm demo-app || true"
-             sh "docker run -d -p 8383:8080 --name demo-app $registry:$BUILD_NUMBER"
+             sh "docker stop $containerName || true"
+             sh "docker rm $containerName || true"
+             sh "docker run -d -p $testPort:$appPort --name $containerName $registry:$BUILD_NUMBER"
             }
         }
 
         stage("Deploy to prod env"){
           steps{
             input 'Do you approve deployment ?'
-            sh "docker -H 13.38.120.149 stop demo-app || true"
-            sh "docker -H 13.38.120.149 rm demo-app || true"
-            sh "docker -H 13.38.120.149 run -d -p 80:8080 --name demo-app $registry:$BUILD_NUMBER"
+            sh "docker -H $prodIP stop $containerName || true"
+            sh "docker -H $prodIP rm $containerName || true"
+            sh "docker -H $prodIP run -d -p $prodPort:$appPort --name $containerName $registry:$BUILD_NUMBER"
+          }
+
+        stage("Clean test env"){
+          steps{
+            input 'Do you approve deployment ?'
+            sh "docker stop $containerName"
+            sh "docker rm $containerName"
+            sh "docker rmi \$(docker images --filter=reference='shossein/demo-boot:*' -qa) -f"
           }
       }
     }
