@@ -33,10 +33,10 @@ pipeline {
 
         stage('SonarQube - SAST ') { //static analysis security testing
           steps {
-            sh "mvn clean verify sonar:sonar 
-                -Dsonar.projectKey=demo-boot 
-                -Dsonar.projectName='demo-boot' 
-                -Dsonar.host.url=http://localhost:9000 
+            sh "mvn clean verify sonar:sonar \
+                -Dsonar.projectKey=demo-boot \
+                -Dsonar.projectName='demo-boot' \
+                -Dsonar.host.url=http://localhost:9000 \
                 -Dsonar.token=sqp_432fc17cc1da80318729dd1c4166206523cc7eec"
           }
         }
