@@ -66,7 +66,6 @@ pipeline {
 
         stage("Clean test env"){
           steps{
-            input 'Do you approve deployment ?'
             sh "docker stop $containerName"
             sh "docker rm $containerName"
             sh "docker rmi \$(docker images --filter=reference='shossein/demo-boot:*' -qa) -f"
