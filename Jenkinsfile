@@ -62,6 +62,7 @@ pipeline {
             sh "docker -H $prodIP rm $containerName || true"
             sh "docker -H $prodIP run -d -p $prodPort:$appPort --name $containerName $registry:$BUILD_NUMBER"
           }
+        }
 
         stage("Clean test env"){
           steps{
