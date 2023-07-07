@@ -46,7 +46,7 @@ pipeline {
             steps{
              sh "docker stop demo-app || true"
              sh "docker rm demo-app || true"
-             sh "docker run -d -p 8383:8080 --name demo-app $registry:$BUILD_NUMBER"    
+             sh "docker run -d -p 8383:8080 --name demo-app $registry:$BUILD_NUMBER"
             }
         }
 
@@ -55,7 +55,7 @@ pipeline {
 	     input 'Do you approve deployment ?'
 	     sh "docker -H 13.38.120.149 stop demo-app || true"
              sh "docker -H 13.38.120.149 rm demo-app || true"
-             sh "docker -H 13.38.120.149 run -d -p 80:8080 --name demo-app $registry:$BUILD_NU>
+             sh "docker -H 13.38.120.149 run -d -p 80:8080 --name demo-app $registry:$BUILD_NU
 	   }
 	}
     }
