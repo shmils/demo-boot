@@ -68,7 +68,7 @@ pipeline {
           steps{
             sh "docker stop $containerName"
             sh "docker rm $containerName"
-            sh "docker rmi \$(docker images --filter=reference='shossein/demo-boot:*' -qa) -f"
+            sh "docker rmi \$(docker images --filter=reference='$registry:*' -qa) -f"
           }
       }
     }
