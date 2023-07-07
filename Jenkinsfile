@@ -50,13 +50,13 @@ pipeline {
             }
         }
 
-	stage("Deploy to prod env"){
-	   steps{
-	     input 'Do you approve deployment ?'
-	     sh "docker -H 13.38.120.149 stop demo-app || true"
-             sh "docker -H 13.38.120.149 rm demo-app || true"
-             sh "docker -H 13.38.120.149 run -d -p 80:8080 --name demo-app $registry:$BUILD_NU
-	   }
-	}
+        stage("Deploy to prod env"){
+          steps{
+            input 'Do you approve deployment ?'
+            sh "docker -H 13.38.120.149 stop demo-app || true"
+            sh "docker -H 13.38.120.149 rm demo-app || true"
+            sh "docker -H 13.38.120.149 run -d -p 80:8080 --name demo-app $registry:$BUILD_NUMBER"
+          }
+      }
     }
 }
